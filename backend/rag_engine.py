@@ -591,7 +591,7 @@ KNOWLEDGE BASE PRIORITY:
             for token in self._call_llm_api_stream(prompt_messages, max_tokens=100):
                 if first_chunk:
                     llm_accumulated += token
-                    cleaned_start = re.sub(r"^(certainly|of course|sure|sure thing|absolutely|glad to help|glad to assist)[!.,\s]*", "", llm_accumulated, flags=re.IGNORECASE)
+                    cleaned_start = re.sub(r"^(of course|sure|sure thing|absolutely|glad to help|glad to assist)[!.,\s]*", "", llm_accumulated, flags=re.IGNORECASE)
                     if not cleaned_start.strip():
                         continue
                     first_chunk = False
