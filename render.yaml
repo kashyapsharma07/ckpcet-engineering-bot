@@ -2,8 +2,10 @@ services:
   - type: web
     name: ckpcet-chatbot
     env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: python app.py
+    buildCommand: ./render-build.sh
+    startCommand: gunicorn --chdir backend app:app --bind 0.0.0.0:$PORT --workers 1 --threads 4
     envVars:
-      - key: OPENAI_API_KEY
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
         sync: false
