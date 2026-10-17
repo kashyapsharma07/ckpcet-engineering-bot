@@ -3,8 +3,15 @@ import time
 # pyrefly: ignore [missing-import]
 from dotenv import load_dotenv
 
-# Load environment variables from .env file in the backend directory
-load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
+# Load environment variables (supports root directory .env or backend/.env)
+root_env = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".env"))
+backend_env = os.path.abspath(os.path.join(os.path.dirname(__file__), ".env"))
+
+if os.path.exists(root_env):
+    load_dotenv(root_env)
+if os.path.exists(backend_env):
+    load_dotenv(backend_env)
+load_dotenv()
 
 class Config:
     # API Configuration
@@ -14,7 +21,7 @@ class Config:
     # Validate at least one API key is present
     if (not GEMINI_API_KEY or "your_" in GEMINI_API_KEY) and (not GROQ_API_KEY or "your_" in GROQ_API_KEY):
         raise ValueError(
-            "❌ No valid API key found in backend/.env!\n"
+            "❌ No valid API key found in .env or environment variables!\n"
             "Please set either GEMINI_API_KEY or GROQ_API_KEY."
         )
 
